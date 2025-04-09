@@ -1,14 +1,7 @@
-import { Routes, Route } from "react-router-dom";
-import ListPage from "./pages/ListPage";
-import SinglePage from "./pages/SinglePage";
+import AppRoute from "./components/routes/AppRoute";
 
 const App: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<ListPage />} />
-      <Route path="/:id" element={<SinglePage />} />
-    </Routes>
-  );
+  return <AppRoute />;
 };
 
 export default App;

@@ -45,7 +45,6 @@ const ListPage: React.FC = () => {
       );
     }
   }, [query, filteredItems]);
-  console.log(filteredItems);
   return (
     <div className={"list-wrapper"}>
       <div className="list-header">
