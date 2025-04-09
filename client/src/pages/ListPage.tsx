@@ -18,10 +18,7 @@ const ListPage: React.FC = () => {
   const handleItemClick = (id: number) => {
     setActiveItemId(id);
   };
-  const activeItemText = useMemo(
-    () => (activeItemId ? activeItemId.toString() : "Empty"),
-    [activeItemId]
-  );
+  const activeItemText = useMemo(() => activeItemId ?? "Empty", [activeItemId]);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
