@@ -1,14 +1,12 @@
-import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { ListItem } from "./components";
-import useData from "./useData";
-import useSort from "./useSort";
-import Button from "./components/Button";
+import React, { useEffect, useMemo, useState } from "react";
 
-const SubTitle: React.FC<PropsWithChildren> = ({ children }) => (
-  <h2 className={"list-subtitle"}>Active Item ID: {children}</h2>
-);
+import useData from "../hooks/useData";
+import useSort from "../hooks/useSort";
+import Button from "../components/Ui/Button";
+import ListItem from "../components/ListItem";
+import SubTitle from "../components/SubTitle";
 
-const ListPage = () => {
+const ListPage: React.FC = () => {
   const items = useData();
   const [sortedItems, sortBy, handleSortClick] = useSort(items);
 
@@ -47,12 +45,12 @@ const ListPage = () => {
       );
     }
   }, [query, filteredItems]);
-
+  console.log(filteredItems);
   return (
     <div className={"list-wrapper"}>
       <div className="list-header">
         <h1 className={"list-title"}>Items List</h1>
-        <SubTitle>{activeItemText}</SubTitle>
+        <SubTitle>{`Active Item ID: ${activeItemText}`}</SubTitle>
         <Button onClick={handleSortClick}>
           Sort ({sortBy === "ASC" ? "ASC" : "DESC"})
         </Button>

@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ITypeItem } from "../types";
 
-type ItemType = {
-  id: number;
-  name: string;
-  description: string;
-};
-
-function SinglePage() {
+const SinglePage: React.FC = () => {
   const { id } = useParams();
-  const [item, setItem] = useState<ItemType | null>(null);
-
+  const [item, setItem] = useState<ITypeItem | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
+    if (!id) return;
+
     fetch(`${process.env.API_URL}/items/${id}`)
       .then((res) => res.json())
-      .then((data) => setItem(data))
+      .then((data: ITypeItem) => {
+        setItem(data);
+        setLoading(false);
+      })
       .catch((err) => {
         console.error("Failed to fetch item", err);
       });
-  }, []);
-  if (!item) return <div>Item not found</div>;
+  }, [id]);
 
+  if (!item) return <div>Item not found</div>;
+  if (loading) return <div>loading..</div>;
   return (
     <div className="detail">
       <Link to={"/"}>Go Back</Link>
@@ -30,6 +31,6 @@ function SinglePage() {
       <p>Description: {item.description}</p>
     </div>
   );
-}
+};
 
 export default SinglePage;

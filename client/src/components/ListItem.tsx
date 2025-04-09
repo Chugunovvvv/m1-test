@@ -1,8 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+import Button from "./Ui/Button";
+import { ITypeItem } from "../types";
 
-const ListItem: React.FC<any> = ({
+interface Props extends ITypeItem {
+  onClick: (id: number) => void;
+  isActive: boolean;
+}
+
+const ListItem: React.FC<Props> = ({
   id,
   name,
   description,
@@ -20,7 +26,7 @@ const ListItem: React.FC<any> = ({
           <div>
             ID: <b>{id}</b>
           </div>
-          <Button onClick={handleClick} id={id} disabled={isActive}>
+          <Button onClick={handleClick} customId={id} disabled={isActive}>
             {isActive ? "Active" : "Set Active"}
           </Button>
         </div>
