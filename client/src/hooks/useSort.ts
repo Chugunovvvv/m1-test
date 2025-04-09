@@ -1,31 +1,22 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
+import { ITypeItem } from "../types";
 
-function useSort(items: any[]): [any[], any, any] {
-	const [sortBy, setSortBy] = useState('ASC');
-	
-	const sortedItems = useMemo(() => {
-		if (sortBy === 'DESC') {
-			return items;
-		}
-		
-		if (sortBy === 'ASC') {
-			return items.sort((a, b) => b.id - a.id)
-		}
-		
-		return items;
-	}, [items, sortBy]);
-	
-	const handleSortClick = () => {
-		if (sortBy === 'ASC') {
-			setSortBy('DESC');
-		} else if (sortBy === 'DESC') {
-			setSortBy('ASC');
-		} else {
-			setSortBy('');
-		}
-	}
-	
-	return [sortedItems, sortBy, handleSortClick]
+type SortDirection = "ASC" | "DESC";
+
+function useSort(items: ITypeItem[]): [ITypeItem[], SortDirection, () => void] {
+  const [sortBy, setSortBy] = useState<SortDirection>("ASC");
+  const sortedItems = useMemo(() => {
+    const itemsCopy = [...items];
+    return sortBy === "ASC"
+      ? itemsCopy.sort((a, b) => a.id - b.id)
+      : itemsCopy.sort((a, b) => b.id - a.id);
+  }, [items, sortBy]);
+
+  const handleSortClick = () => {
+    setSortBy((prev) => (prev === "ASC" ? "DESC" : "ASC"));
+  };
+
+  return [sortedItems, sortBy, handleSortClick];
 }
 
 export default useSort;
