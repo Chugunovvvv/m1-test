@@ -7,7 +7,7 @@ import ListItem from "../components/ListItem";
 import SubTitle from "../components/SubTitle";
 
 const ListPage: React.FC = () => {
-  const items = useData();
+  const { items, isLoading } = useData();
   const [sortedItems, sortBy, handleSortClick] = useSort(items);
 
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
@@ -45,6 +45,9 @@ const ListPage: React.FC = () => {
       );
     }
   }, [query, filteredItems]);
+
+  if (isLoading) return <div>Loading..</div>;
+
   return (
     <div className={"list-wrapper"}>
       <div className="list-header">
