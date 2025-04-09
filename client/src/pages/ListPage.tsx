@@ -5,13 +5,14 @@ import useSort from "../hooks/useSort";
 import Button from "../components/Ui/Button";
 import ListItem from "../components/ListItem";
 import SubTitle from "../components/SubTitle";
+import { ITypeItem } from "../types";
 
 const ListPage: React.FC = () => {
   const { items, isLoading } = useData();
   const [sortedItems, sortBy, handleSortClick] = useSort(items);
 
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
-  const [filteredItems, setFilteredItems] = useState<any[]>([]);
+  const [filteredItems, setFilteredItems] = useState<ITypeItem[]>([]);
   const [query, setQuery] = useState<string>("");
 
   const handleItemClick = (id: number) => {
@@ -27,27 +28,19 @@ const ListPage: React.FC = () => {
   };
 
   useEffect(() => {
-    setFilteredItems(sortedItems);
-  }, [sortedItems]);
+    const safeQuery = query.toLowerCase().trim();
 
-  useEffect(() => {
     if (query.length > 0) {
       setFilteredItems(
-        filteredItems.filter((item) =>
-          `${item.id}`.includes(
-            query
-              .toLowerCase()
-              .trimStart()
-              .trimEnd()
-              .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-          )
-        )
+        sortedItems.filter((item) => `${item.id}`.includes(safeQuery))
       );
+    } else {
+      setFilteredItems(sortedItems);
     }
-  }, [query, filteredItems]);
+  }, [query, sortedItems]);
 
   if (isLoading) return <div>Loading..</div>;
-
+  if (filteredItems.length === 0) return <div>Items not found</div>;
   return (
     <div className={"list-wrapper"}>
       <div className="list-header">
@@ -65,7 +58,6 @@ const ListPage: React.FC = () => {
       </div>
       <div className="list-container">
         <div className="list">
-          {filteredItems.length === 0 && <span>items not found</span>}
           {filteredItems.map((item) => (
             <ListItem
               key={item.id}
