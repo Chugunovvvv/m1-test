@@ -5,6 +5,7 @@ type SortDirection = "ASC" | "DESC";
 
 function useSort(items: ITypeItem[]): [ITypeItem[], SortDirection, () => void] {
   const [sortBy, setSortBy] = useState<SortDirection>("ASC");
+
   const sortedItems = useMemo(() => {
     const itemsCopy = [...items];
     return sortBy === "ASC"

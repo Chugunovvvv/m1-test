@@ -40,7 +40,7 @@ const ListPage: React.FC = () => {
   }, [query, sortedItems]);
 
   if (isLoading) return <div>Loading..</div>;
-  if (filteredItems.length === 0) return <div>Items not found</div>;
+
   return (
     <div className={"list-wrapper"}>
       <div className="list-header">
@@ -57,6 +57,7 @@ const ListPage: React.FC = () => {
         />
       </div>
       <div className="list-container">
+        {filteredItems.length === 0 && <div>Items not found</div>}
         <div className="list">
           {filteredItems.map((item) => (
             <ListItem
